@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from typing import List   
 
 
@@ -9,8 +9,8 @@ PROJECT_AUTHOR = "atchayapraba"
 PROJECT_DESCRIPTION = """
 This is my first internship project at ineuron. It predicts the forest cover type. 
 """
-PACKAGES = ["forestcovertype"]
 REQUIREMWNTS_FILE_NAME = "requirements.txt"
+HYPHEN_E_DOT = "-e ."
 
 
 def get_requirements_list() -> List[str]:
@@ -21,14 +21,19 @@ def get_requirements_list() -> List[str]:
     return: List containg str
     """
     with open(REQUIREMWNTS_FILE_NAME, "r+") as requirements_file:
-        return requirements_file.readline()
-
+        requirements_list = requirements_file.readlines()
+        requirements_list = [requirement_name.replace("\n", "") for requirement_name in requirements_list]
+        if HYPHEN_E_DOT in requirements_list:
+            requirements_list = requirements_list.remove(HYPHEN_E_DOT)
+        else:
+            pass
+        return requirements_list
 
 setup(
     name=PROJECT_NAME,
     version=PROJECT_VERSION,
     author=PROJECT_AUTHOR,
     description=PROJECT_DESCRIPTION,
-    packages=PACKAGES,
+    packages=find_packages(),
     install_requires = get_requirements_list()
 )
